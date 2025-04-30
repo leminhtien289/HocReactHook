@@ -1,9 +1,9 @@
-import axios from 'axios';
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { FcPlus } from 'react-icons/fc';
 import { toast } from 'react-toastify';
+import { postCreateNewUser } from '../../../services/apiService';
 
 const ModalCreateUser = ({ show, setShow }) => {
     const handleClose = () => {
@@ -52,23 +52,16 @@ const ModalCreateUser = ({ show, setShow }) => {
             return;
         }
 
-        const data = new FormData();
-        data.append('email', email);
-        data.append('password', password);
-        data.append('username', username);
-        data.append('role', role);
-        data.append('userImage', image);
+        let data = await postCreateNewUser(email, password, username, role, image);
 
-        let res = await axios.post('http://localhost:8081/api/v1/participant', data);
-
-        console.log(">>> check: ", res.data);
-        if (res.data.EC === 0) {
-            toast.success(res.data.EM);
+        console.log(">>> check: ", data);
+        if (data && data.EC === 0) {
+            toast.success(data.EM);
             handleClose();
         }
 
-        if (res.data && res.data.EC !== 0) {
-            toast.error(res.data.EM);
+        if (data && data.EC !== 0) {
+            toast.error(data.EM);
         }
 
     }
