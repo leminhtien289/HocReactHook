@@ -1,18 +1,35 @@
 import { useState } from 'react';
 import './Login.scss';
+import { useNavigate } from 'react-router-dom';
+import { postLogin } from '../../services/apiService';
+import { toast } from 'react-toastify';
 
 const Login = (props) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
-    const handleLogin = () => {
-        alert('Login clicked!');
+    const handleLogin = async () => {
+        //validate
+
+
+        //Submit apis
+        let data = await postLogin(email, password);
+        if (data && data.EC === 0) {
+            toast.success(data.EM);
+            navigate('/')
+        }
+
+        if (data && +data.EC !== 0) {
+            toast.error(data.EM);
+        }
     }
 
     return (
         <div className="login-container">
             <div className='header'>
-                Don't have an account yet?
+                <span> Don't have an account yet?</span>
+                <button className='btn-signup'>Sign up</button>
             </div>
             <div className='title col-4 mx-auto'>
                 HoiDanIT
@@ -36,7 +53,7 @@ const Login = (props) => {
                         type="password"
                         className='form-control'
                         value={password}
-                        onChange={(event) => setEmail(event.target.value)}
+                        onChange={(event) => setPassword(event.target.value)}
                     />
                 </div>
                 <span className='forgot-password'>Forgot password ?</span>
@@ -47,10 +64,16 @@ const Login = (props) => {
                     >
                         Login to HoiDanIT
                     </button>
-
+                </div>
+                <div className='text-center'>
+                    <span
+                        className='back'
+                        onClick={() => { navigate('/') }}
+                    > &lt;&lt; Go to Homepage
+                    </span>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 
