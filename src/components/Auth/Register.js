@@ -60,7 +60,7 @@ const Register = (props) => {
                 </button>
             </div>
             <div className='title col-4 mx-auto'>
-                Hỏi Dân IT
+                Hỏi Dân IT &amp; Eric
             </div>
             <div className='welcome col-4 mx-auto'>
                 Start your journey?

@@ -35,6 +35,23 @@
         input {
             margin-bottom: 15px;
             margin-top: 3px;
+
+            &::-ms-reveal,
+            &::-ms-clear {
+                display: none;
+            }
+
+            &[type="password"]::-webkit-credentials-auto-fill-button {
+                visibility: hidden;
+                pointer-events: none;
+                position: absolute;
+                right: 0;
+            }
+
+            &[type="password"]+svg {
+                display: none;
+                /* Ẩn icon SVG ngay sau input (icon tự thêm) */
+            }
         }
 
         button {
