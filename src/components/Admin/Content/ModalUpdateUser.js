@@ -7,7 +7,7 @@ import { putUpdateUser } from '../../../services/apiService';
 import _ from 'lodash';
 
 
-const ModalUpdateUser = ({ show, setShow, fetchListUser, dataUpdate, resetUpdateData }) => {
+const ModalUpdateUser = ({ show, setShow, fetchListUsers, dataUpdate, resetUpdateData, setCurrentPage, fetchListUsersWithPaginate, currentPage }) => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -47,14 +47,16 @@ const ModalUpdateUser = ({ show, setShow, fetchListUser, dataUpdate, resetUpdate
         }
     }
 
-    const handleSubmitCreateUser = async () => {
+    const handleSubmitUpdateUser = async () => {
 
         let data = await putUpdateUser(dataUpdate.id, username, role, image);
 
         if (data && data.EC === 0) {
             toast.success(data.EM);
             handleClose();
-            await fetchListUser();
+            // await fetchListUsers();
+            // setCurrentPage(1);
+            await fetchListUsersWithPaginate(currentPage);
         }
 
         if (data && data.EC !== 0) {
@@ -142,7 +144,7 @@ const ModalUpdateUser = ({ show, setShow, fetchListUser, dataUpdate, resetUpdate
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={() => { handleSubmitCreateUser() }}>
+                    <Button variant="primary" onClick={() => { handleSubmitUpdateUser() }}>
                         Save
                     </Button>
                 </Modal.Footer>

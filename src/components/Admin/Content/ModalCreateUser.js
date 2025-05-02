@@ -5,7 +5,7 @@ import { FcPlus } from 'react-icons/fc';
 import { toast } from 'react-toastify';
 import { postCreateNewUser } from '../../../services/apiService';
 
-const ModalCreateUser = ({ show, setShow, fetchListUser }) => {
+const ModalCreateUser = ({ show, setShow, fetchListUsers, fetchListUsersWithPaginate, setCurrentPage }) => {
     const handleClose = () => {
         setShow(false)
         setEmail('');
@@ -57,7 +57,9 @@ const ModalCreateUser = ({ show, setShow, fetchListUser }) => {
         if (data && data.EC === 0) {
             toast.success(data.EM);
             handleClose();
-            await fetchListUser();
+            // await fetchListUsers();
+            setCurrentPage(1);
+            await fetchListUsersWithPaginate(1);
         }
 
         if (data && data.EC !== 0) {
