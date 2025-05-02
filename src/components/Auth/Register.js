@@ -1,12 +1,17 @@
-import { useState } from 'react';
-import './Login.scss';
-import { useNavigate } from 'react-router-dom';
-import { postLogin } from '../../services/apiService';
-import { toast } from 'react-toastify';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { postRegister } from "../../services/apiService";
+import './Register.scss';
+import { VscEye, VscEyeClosed } from 'react-icons/vsc';
 
-const Login = (props) => {
+const Register = (props) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [username, setUsername] = useState('');
+
+    const [isShowPassword, setIsShowPassword] = useState(false);
+
     const navigate = useNavigate();
 
     const validateEmail = (email) => {
@@ -17,7 +22,7 @@ const Login = (props) => {
             );
     };
 
-    const handleLogin = async () => {
+    const handleRegister = async () => {
         //validate
         const isValidEmail = validateEmail(email);
 
@@ -32,10 +37,10 @@ const Login = (props) => {
         }
 
         //Submit apis
-        let data = await postLogin(email, password);
+        let data = await postRegister(email, password);
         if (data && data.EC === 0) {
             toast.success(data.EM);
-            navigate('/')
+            navigate('/login')
         }
 
         if (data && +data.EC !== 0) {
@@ -44,49 +49,72 @@ const Login = (props) => {
     }
 
     return (
-        <div className="login-container">
+        <div className="register-container">
             <div className='header'>
-                <span> Don't have an account yet?</span>
+                <span> Already have an account?</span>
                 <button
                     className='btn-signup'
-                    onClick={() => { navigate('/register') }}
+                    onClick={() => { navigate('/login') }}
                 >
-                    Sign up
+                    Log in
                 </button>
             </div>
             <div className='title col-4 mx-auto'>
-                HoiDanIT &amp; Eric
+                Hỏi Dân IT
             </div>
             <div className='welcome col-4 mx-auto'>
-                Hello, who's this?
+                Start your journey?
             </div>
             <div className='content-form col-4 mx-auto'>
                 <div className='form-group'>
-                    <label >Email</label>
+                    <label >Email (*)</label>
                     <input
-                        type={"email"}
+                        type="email"
                         className='form-control'
                         value={email}
                         onChange={(event) => setEmail(event.target.value)}
                     />
                 </div>
-                <div className='form-group'>
-                    <label>Password</label>
+                <div className='form-group pass-group'>
+                    <label >Password (*)</label>
                     <input
-                        type={"password"}
+                        type={isShowPassword ? 'text' : 'password'}
                         className='form-control'
                         value={password}
                         onChange={(event) => setPassword(event.target.value)}
                     />
+
+                    {isShowPassword ?
+                        <span
+                            className='icons-eye'
+                            onClick={() => setIsShowPassword(false)}
+                        >
+                            <VscEye />
+                        </span>
+                        :
+                        <span
+                            className='icons-eye'
+                            onClick={() => setIsShowPassword(true)}
+                        >
+                            <VscEyeClosed />
+                        </span>
+                    }
                 </div>
-                <span className='forgot-password'>Forgot password ?</span>
+                <div className='form-group'>
+                    <label >Username</label>
+                    <input
+                        type="text"
+                        className='form-control'
+                        value={username}
+                        onChange={(event) => setUsername(event.target.value)}
+                    />
+                </div>
                 <div>
                     <button
                         className='btn-submit'
-                        onClick={() => handleLogin()}
+                        onClick={() => handleRegister()}
                     >
-                        Login to HoiDanIT
-                    </button>
+                        Create me free account                     </button>
                 </div>
                 <div className='text-center'>
                     <span
@@ -100,4 +128,4 @@ const Login = (props) => {
     )
 }
 
-export default Login
+export default Register;
