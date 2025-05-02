@@ -37,7 +37,7 @@ const Register = (props) => {
         }
 
         //Submit apis
-        let data = await postRegister(email, password);
+        let data = await postRegister(email, password, username);
         if (data && data.EC === 0) {
             toast.success(data.EM);
             navigate('/login')

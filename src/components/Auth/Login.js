@@ -55,7 +55,7 @@ const Login = (props) => {
                 </button>
             </div>
             <div className='title col-4 mx-auto'>
-                HoiDanIT &amp; Eric
+                HoiDanIT
             </div>
             <div className='welcome col-4 mx-auto'>
                 Hello, who's this?
@@ -64,16 +64,16 @@ const Login = (props) => {
                 <div className='form-group'>
                     <label >Email</label>
                     <input
-                        type={"email"}
+                        type="email"
                         className='form-control'
                         value={email}
                         onChange={(event) => setEmail(event.target.value)}
                     />
                 </div>
                 <div className='form-group'>
-                    <label>Password</label>
+                    <label >Password</label>
                     <input
-                        type={"password"}
+                        type="password"
                         className='form-control'
                         value={password}
                         onChange={(event) => setPassword(event.target.value)}
