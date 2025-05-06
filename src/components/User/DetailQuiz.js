@@ -34,8 +34,8 @@ const DetailQuiz = () => {
                             questionDescription = item.description;
                             image = item.image;
                         }
+                        item.answers.isSelected = false;
                         answers.push(item.answers)
-                        console.log("check item", item);
                     });
 
                     return {
@@ -55,7 +55,6 @@ const DetailQuiz = () => {
     const handleNext = () => {
         if (dataQuiz && dataQuiz.length > index + 1)
             setIndex(index + 1);
-
     }
 
     const handlePrev = () => {
@@ -64,6 +63,24 @@ const DetailQuiz = () => {
         setIndex(index - 1);
     }
 
+    const handleCheckbox = (answerId, questionId) => {
+        let dataQuizClone = _.cloneDeep(dataQuiz);
+        let question = dataQuizClone.find(item => +item.questionId === +questionId);
+        if (question && question.answers) {
+            let b = question.answers.map(item => {
+                if (+item.id === +answerId) {
+                    item.isSelected = !item.isSelected;
+                }
+                return item;
+            })
+            question.answers = b;
+        }
+        let index = dataQuizClone.findIndex(item => +item.questionId === +questionId);
+        if (index > -1) {
+            dataQuizClone[index] = question;
+            setDataQuiz(dataQuizClone);
+        }
+    }
 
     return (
         <div className="detail-quiz-container">
@@ -79,11 +96,13 @@ const DetailQuiz = () => {
                     <Question
                         data={dataQuiz && dataQuiz.length ? dataQuiz[index] : []}
                         index={index}
+                        handleCheckbox={handleCheckbox}
                     />
                 </div>
                 <div className="footer">
                     <button className="btn btn-secondary" onClick={() => handlePrev()}>Prev</button>
                     <button className="btn btn-primary" onClick={() => handleNext()}>Next</button>
+                    <button className="btn btn-warning" onClick={() => handleNext()}>Finish</button>
                 </div>
             </div>
             <div className="right-content">
