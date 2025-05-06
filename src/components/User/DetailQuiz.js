@@ -1,9 +1,10 @@
 import { useParams, useLocation } from "react-router-dom";
-import { getDataQuiz } from "../../services/apiService";
+import { getDataQuiz, postSubmitQuiz } from "../../services/apiService";
 import { useEffect, useState } from "react";
 import _ from "lodash";
 import './DetailQuiz.scss';
 import Question from "./Question";
+import ModalResult from "./ModalResult";
 import { set } from "nprogress";
 
 
@@ -13,6 +14,8 @@ const DetailQuiz = () => {
     const location = useLocation();
     const [dataQuiz, setDataQuiz] = useState([]);
     const [index, setIndex] = useState(0);
+    const [isShowModalResult, setIsShowModalResult] = useState(false);
+    const [dataModalResult, setDataModalResult] = useState({});
 
     useEffect(() => {
         fetchQuestions();
@@ -60,7 +63,7 @@ const DetailQuiz = () => {
         setIndex(index - 1);
     }
 
-    const handleFinishQuiz = () => {
+    const handleFinishQuiz = async () => {
         console.log(dataQuiz)
         let payload = {
             quizId: +quizId,
@@ -83,7 +86,20 @@ const DetailQuiz = () => {
                 })
             });
             payload.answers = answers;
-            console.log("check payload", payload);
+
+            //sumbit quiz
+            let res = await postSubmitQuiz(payload);
+            console.log('res submit quiz', res)
+            if (res && res.EC === 0) {
+                setDataModalResult({
+                    countCorrect: res.DT.countCorrect,
+                    countTotal: res.DT.countTotal,
+                    quizData: res.DT.quizData,
+                });
+                setIsShowModalResult(true);
+            } else {
+                alert(res.EM);
+            }
         }
     }
 
@@ -132,6 +148,11 @@ const DetailQuiz = () => {
             <div className="right-content">
                 countdown
             </div>
+            <ModalResult
+                show={isShowModalResult}
+                setShow={setIsShowModalResult}
+                dataModalResult={dataModalResult}
+            />
         </div>
     );
 }
