@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './ManageQuiz.scss';
 import Select from 'react-select';
 import { postCreateNewQuiz } from '../../../../services/apiService';
@@ -45,7 +45,6 @@ const ManageQuiz = () => {
 
     return (
         <div className="quiz-container">
-
             <Accordion defaultActiveKey="0">
                 <Accordion.Item eventKey="0">
                     <Accordion.Header>Manage Quiz</Accordion.Header>
