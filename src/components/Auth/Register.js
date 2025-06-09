@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { postRegister } from "../../services/apiService";
 import './Register.scss';
 import { VscEye, VscEyeClosed } from 'react-icons/vsc';
+import Language from "../Header/Language";
 
 const Register = (props) => {
     const [email, setEmail] = useState('');
@@ -58,6 +59,7 @@ const Register = (props) => {
                 >
                     Log in
                 </button>
+                <Language />
             </div>
             <div className='title col-4 mx-auto'>
                 Hỏi Dân IT &amp; Eric
