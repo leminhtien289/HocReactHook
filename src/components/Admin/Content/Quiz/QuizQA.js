@@ -225,14 +225,16 @@ const QuizQA = (props) => {
                 questionsClone[i].imageFile = await toBase64(questionsClone[i].imageFile);
             }
         }
+
         let res = await postUpsertQA({
             quizId: selectedQuiz.value,
             questions: questionsClone,
         });
+
         if (res && res.EC === 0) {
             toast.success(res.EM);
-            
         }
+        
         // setQuestions(initQuestion);
 
         //Submit questions

@@ -1,7 +1,12 @@
 import _ from 'lodash';
+import { useState } from 'react';
+import Lightbox from 'react-awesome-lightbox';
 
 const Question = (props) => {
+    const [isPreviewImage, setIsPreviewImage] = useState(false);
+
     const { data, index } = props;
+
     if (_.isEmpty(data)) {
         return (<></>)
     }
@@ -14,7 +19,19 @@ const Question = (props) => {
         <>
             {data.image ?
                 <div className="q-image" >
-                    <img src={`data:image/jpeg;base64,${data.image}`} alt="question" />
+                    <img
+                        src={`data:image/jpeg;base64,${data.image}`}
+                        alt="question"
+                        onClick={() => setIsPreviewImage(true)}
+                        style={{ cursor: "pointer" }} />
+                    {isPreviewImage === true &&
+                        <Lightbox
+                            image={`data:image/jpeg;base64,${data.image}`}
+                            title={"Question Image"}
+                            onClose={() => setIsPreviewImage(false)}
+                        >
+                        </Lightbox>
+                    }
                 </div>
                 :
                 <div className="q-image">
