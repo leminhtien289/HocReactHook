@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { postLogin } from '../../services/apiService';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
-import { doLogin } from '../../redux/action/userLogin';
+import { doLogin } from '../../redux/action/userAction';
 import { ImSpinner10 } from 'react-icons/im';
 
 const Login = (props) => {
@@ -53,6 +53,12 @@ const Login = (props) => {
         }
     }
 
+    const handleKeyDown = (event) => {
+        if (event && event.key === 'Enter') {
+            handleLogin();
+        }
+    }
+
     return (
         <div className="login-container">
             <div className='header'>
@@ -87,6 +93,7 @@ const Login = (props) => {
                         className='form-control'
                         value={password}
                         onChange={(event) => setPassword(event.target.value)}
+                        onKeyDown={(event) => handleKeyDown(event)}
                     />
                 </div>
                 <span className='forgot-password'>Forgot password ?</span>
