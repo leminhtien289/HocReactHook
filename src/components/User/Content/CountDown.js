@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 const CountDown = (props) => {
-    const [count, setCount] = useState(10);
+    const [count, setCount] = useState(1000);
 
     useEffect(() => {
 
